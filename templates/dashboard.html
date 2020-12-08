@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1 style="text-align:center; color: #BF0000">Aurix Analytics: Direccion Nacional De Control De Drogas</h1>
+  <h2>Detenidos Por Mes</h2>
+  <canvas id="presosMes" width="" height="100"></canvas>
+  <h2>Averaje De Detenidos Cada Mes</h2>
+  <canvas id="averajeMes" width="" height="100"></canvas>
+  <script>
+Chart.defaults.global.responsive = true;
+
+var chartData1 = {
+   labels : [{% for item in labels1 %}
+              "{{item}}",
+             {% endfor %}],
+   datasets : [{
+      label: '{{ legend1 }}',
+      data : [{% for item in values1 %}
+                 {{item}},
+               {% endfor %}],
+      backgroundColor: '#B80F0A'
+   }]
+ }
+ // get chart canvas
+ var ctx1 = document.getElementById("presosMes").getContext("2d");
+ // create the chart using the chart canvas
+ var presosPorMes = new Chart(ctx1, {
+   type: 'line',
+   data: chartData1,
+ }); 
+
+ var chartData2 = {
+   labels : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+   datasets : [{
+        label: '{{ legend2 }}',
+        data : [{% for item in values2 %}
+                 {{item}},
+               {% endfor %}],
+        backgroundColor: '#B80F0A'
+   }]
+ }
+ // get chart canvas
+ var ctx2 = document.getElementById("averajeMes").getContext("2d");
+ // create the chart using the chart canvas
+ var presosPorMes = new Chart(ctx2, {
+   type: 'bar',
+   data: chartData2,
+ }); 
+  </script>
+{% endblock body %}
