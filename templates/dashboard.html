@@ -1,50 +1,80 @@
 {% extends 'base.html' %}
-{% block body %}
-  <h1 style="text-align:center; color: #BF0000">Aurix Analytics: Direccion Nacional De Control De Drogas</h1>
-  <h2>Detenidos Por Mes</h2>
-  <canvas id="presosMes" width="" height="100"></canvas>
-  <h2>Averaje De Detenidos Cada Mes</h2>
-  <canvas id="averajeMes" width="" height="100"></canvas>
+
+{% block content %}
+
+  <h1 class="display-4" style="text-align:center; color: #BF0000">Aurix Analytics: Direccion Nacional de Control de Drogas</h1>
+ 
+  <h2>{{ legend1 }}</h2>
+  <canvas id="{{ legend1 }}" width="" height="100"></canvas>
+
+  <h2>{{ legend2 }}</h2>
+  <canvas id="{{ legend2 }}" width="" height="100"></canvas>
+
+  <h2>{{ legend3 }}</h2>
+  <canvas id="{{ legend3 }}" width="" height="200"></canvas>
+  
   <script>
 Chart.defaults.global.responsive = true;
+Chart.defaults.global.legend.display = false;
 
 var chartData1 = {
-   labels : [{% for item in labels1 %}
+      labels : [{% for item in labels1 %}
               "{{item}}",
              {% endfor %}],
-   datasets : [{
-      label: '{{ legend1 }}',
+      datasets : [{
+      label: '',
       data : [{% for item in values1 %}
-                 {{item}},
-               {% endfor %}],
-      backgroundColor: '#B80F0A'
+                   {{item}},
+              {% endfor %}],
+      borderColor: '#B80F0A',
+      backgroundColor: '#B80F0A80'
    }]
  }
- // get chart canvas
- var ctx1 = document.getElementById("presosMes").getContext("2d");
- // create the chart using the chart canvas
+
+ var ctx1 = document.getElementById("{{ legend1 }}").getContext("2d");
  var presosPorMes = new Chart(ctx1, {
    type: 'line',
    data: chartData1,
  }); 
 
  var chartData2 = {
-   labels : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
-                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-   datasets : [{
-        label: '{{ legend2 }}',
-        data : [{% for item in values2 %}
-                 {{item}},
-               {% endfor %}],
-        backgroundColor: '#B80F0A'
+      labels : [{% for item in labels2 %}
+                "{{item}}",
+              {% endfor %}],
+      datasets : [{
+      label: '',
+      data: [{% for item in values2 %}
+                  {{item}},
+             {% endfor %}],
+      borderWidth: 2,
+      borderColor: '#B80F0A',
+      backgroundColor: '#B80F0A80'
    }]
  }
- // get chart canvas
- var ctx2 = document.getElementById("averajeMes").getContext("2d");
- // create the chart using the chart canvas
+ var ctx2 = document.getElementById("{{ legend2 }}").getContext("2d");
  var presosPorMes = new Chart(ctx2, {
    type: 'bar',
    data: chartData2,
  }); 
+
+ var chartData3 = {
+      labels : [{% for item in labels3 %}
+                "{{item}}",
+              {% endfor %}],
+      datasets : [{
+      label: '',
+      data: [{% for item in values3 %}
+                  {{item}},
+             {% endfor %}],
+      borderWidth: 2,
+      borderColor: '#B80F0A',
+      backgroundColor: '#B80F0A80'
+   }]
+ }
+ var ctx3 = document.getElementById("{{ legend3 }}").getContext("2d");
+ var presosPorMes = new Chart(ctx3, {
+   type: 'horizontalBar',
+   data: chartData3,
+ }); 
   </script>
-{% endblock body %}
+{% endblock %}

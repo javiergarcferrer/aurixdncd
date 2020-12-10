@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    {% block head %}
-    {% endblock %}
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %} Direccion Nacional De Control De Drogas {% endblock %}</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    </head>
-    <body>
-    {% block body %}
-    {% endblock %}
-    </body>
-</html>
+{% extends 'bootstrap/base.html' %}
+
+{% block head %}
+{{super()}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+{% endblock %} 
+
+{% block body %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">Aurix</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{{ url_for('search') }}">Search</a></li>
+      </ul>
+    </div>
+  </nav>
+  {% block content %}{% endblock %}
+{% endblock %}

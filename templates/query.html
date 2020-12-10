@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li style="color:red">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div class="container-fluid">
+<h1>Search</h1>
+<div class="row">
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+<div class="container-fluid">
+{% if combined %}
+    {{ combined|safe }}
+{% endif %}
+</div>
+
+{% if rnombre1 %}
+    {{ rnombre1|safe }}
+{% endif %}
+
+{% if rapellido1 %}
+    {{ rapellido1|safe }}
+{% endif %}
+
+{% endblock %}
