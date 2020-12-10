@@ -15,7 +15,7 @@ dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='DOMINICANA ', value=
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='HOLANDA', value="Holanda") 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/dashboard')
 def dashboard():
     ## Grafico Presos Por Mes
     grouped1 = dn.groupby(['anio','mes'])['detenidoId']
@@ -29,7 +29,7 @@ def dashboard():
     ## Grafico Averaje por Mes
     grouped2 = dn.groupby('mes')['detenidoId']
     groups2 = grouped2.groups
-    labels2 = ['Enero', 'Febrero', 'Marzo', 'Abril',       'Mayo', 'Junio', 'Julio','Agosto', 'Septiembre','Octubre', 'Noviembre', 'Diciembre']
+    labels2 = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto', 'Septiembre','Octubre', 'Noviembre', 'Diciembre']
     values2 = grouped2.count()/len(dn['anio'].unique())
     legend2 = "Averaje de Detenidos Cada Mes"
 
