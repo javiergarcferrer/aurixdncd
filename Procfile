@@ -1,1 +1,1 @@
-web: gunicorn dn.py
+web: gunicorn dn:app
