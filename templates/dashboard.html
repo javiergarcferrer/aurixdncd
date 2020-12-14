@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<div class="container-fluid">
   <h1 class="display-4" style="text-align:center; color: #BF0000">Aurix Analytics: Direccion Nacional de Control de Drogas</h1>
  
   <h2>{{ legend1 }}</h2>
@@ -11,8 +11,8 @@
   <canvas id="{{ legend2 }}" width="" height="100"></canvas>
 
   <h2>{{ legend3 }}</h2>
-  <canvas id="{{ legend3 }}" width="" height="200"></canvas>
-  
+  <canvas id="{{ legend3 }}" width="" height=""></canvas>
+</div>
   <script>
 Chart.defaults.global.responsive = true;
 Chart.defaults.global.legend.display = false;
