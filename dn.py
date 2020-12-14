@@ -75,7 +75,10 @@ def search():
         n1n2a1 = n1a1[n1a1['nombre2'].str.contains(nombre2, na=False, case=False)]
         combined = n1n2a1[n1n2a1['apellido2'].str.contains(apellido2, na=False, case=False)]
 
-        if nombre1 and apellido1 and nombre2 and apellido2:
+        if noid:
+            return render_template('query.html', form=form, condition=rnoid.to_html())
+
+        elif nombre1 and apellido1 and nombre2 and apellido2:
             return render_template('query.html', form=form, condition=combined.to_html())
 
         elif nombre1 and apellido1 and not nombre2 and not apellido2:
