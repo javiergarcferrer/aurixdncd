@@ -7,4 +7,5 @@ class QueryForm(FlaskForm):
     nombre2 = StringField('Segundo Nombre')
     apellido1 = StringField('Apellido')
     apellido2 = StringField('Segundo Apellido')
+    noid = StringField('Numero de Identificacion')
     submit = SubmitField('Submit')

@@ -57,11 +57,15 @@ def dashboard():
 def search():
     form = QueryForm()
     if form.validate_on_submit():
+        noid = form.noid.data
+
         nombre1 = form.nombre1.data
         apellido1 = form.apellido1.data
         nombre2 = form.nombre2.data
         apellido2 = form.apellido2.data
         
+        rnoid = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]
+
         rnombre1 = dn[dn['nombre1'].str.contains(nombre1, na=False, case=False)]
         rapellido1 = dn[dn['apellido1'].str.contains(apellido1, na=False, case=False)]
         rnombre2 = dn[dn['nombre2'].str.contains(nombre2, na=False, case=False)]
