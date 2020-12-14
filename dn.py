@@ -10,7 +10,7 @@ Bootstrap(app)
 import pandas as pd
 dn = pd.read_json('dn.json')
 
-#Limpieza de base de datos de la DNCD
+#Limpieza base de datos DNCD
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='DOMINICANA ', value="República Dominicana")
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='HOLANDA', value="Holanda") 
 
@@ -59,20 +59,29 @@ def search():
     if form.validate_on_submit():
         nombre1 = form.nombre1.data
         apellido1 = form.apellido1.data
+        nombre2 = form.nombre2.data
+        apellido2 = form.apellido2.data
         
         rnombre1 = dn[dn['nombre1'].str.contains(nombre1, na=False, case=False)]
         rapellido1 = dn[dn['apellido1'].str.contains(apellido1, na=False, case=False)]
+        rnombre2 = dn[dn['nombre2'].str.contains(nombre2, na=False, case=False)]
+        rapellido2 = dn[dn['apellido2'].str.contains(apellido2, na=False, case=False)]
         
-        combined = rnombre1[rnombre1['apellido1'].str.contains(apellido1, na=False, case=False)]
+        n1a1 = rnombre1[rnombre1['apellido1'].str.contains(apellido1, na=False, case=False)]
+        n1n2a1 = n1a1[n1a1['nombre2'].str.contains(nombre2, na=False, case=False)]
+        combined = n1n2a1[n1n2a1['apellido2'].str.contains(apellido2, na=False, case=False)]
 
-        if nombre1 and apellido1:
-            return render_template('query.html', form=form, combined=combined.to_html())
+        if nombre1 and apellido1 and nombre2 and apellido2:
+            return render_template('query.html', form=form, condition=combined.to_html())
+
+        elif nombre1 and apellido1 and not nombre2 and not apellido2:
+            return render_template('query.html', form=form, condition=n1a1.to_html())
 
         elif nombre1:
-            return render_template('query.html', form=form, rnombre1=rnombre1.to_html()) 
+            return render_template('query.html', form=form, condition=rnombre1.to_html()) 
 
         elif apellido1:
-            return render_template('query.html', form=form, rapellido1=rapellido1.to_html())
+            return render_template('query.html', form=form, condition=rapellido1.to_html())
         
         else:
             flash('Please provide at least one field to query our database')

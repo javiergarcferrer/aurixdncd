@@ -21,17 +21,8 @@
     </div>
 </div>
 <div class="container-fluid">
-{% if combined %}
-    {{ combined|safe }}
+{% if condition %}
+    {{ condition|safe }}
 {% endif %}
-</div>
-
-{% if rnombre1 %}
-    {{ rnombre1|safe }}
-{% endif %}
-
-{% if rapellido1 %}
-    {{ rapellido1|safe }}
-{% endif %}
-
 {% endblock %}
+</div>
