@@ -9,3 +9,6 @@ class QueryForm(FlaskForm):
     apellido2 = StringField('Segundo Apellido')
     noid = StringField('Numero de Identificacion')
     submit = SubmitField('Submit')
+
+class AuthenticateForm(FlaskForm):
+    key = StringField('Secret Key')
