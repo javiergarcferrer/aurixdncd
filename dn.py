@@ -85,20 +85,22 @@ def search():
         n1n2a1 = n1a1[n1a1['nombre2'].str.contains(nombre2, na=False, case=False)]
         combined = n1n2a1[n1n2a1['apellido2'].str.contains(apellido2, na=False, case=False)]
 
+        classes = ["table", "table-hover", "table-striped"]
+
         if noid:
-            return render_template('query.html', form=form, condition=rnoid.to_html())
+            return render_template('query.html', form=form, condition=rnoid.to_html(classes=classes))
 
         elif nombre1 and apellido1 and nombre2 and apellido2:
-            return render_template('query.html', form=form, condition=combined.to_html())
+            return render_template('query.html', form=form, condition=combined.to_html(classes=classes))
 
         elif nombre1 and apellido1 and not nombre2 and not apellido2:
-            return render_template('query.html', form=form, condition=n1a1.to_html())
+            return render_template('query.html', form=form, condition=n1a1.to_html(classes=classes))
 
         elif nombre1:
-            return render_template('query.html', form=form, condition=rnombre1.to_html()) 
+            return render_template('query.html', form=form, condition=rnombre1.to_html(classes=classes)) 
 
         elif apellido1:
-            return render_template('query.html', form=form, condition=rapellido1.to_html())
+            return render_template('query.html', form=form, condition=rapellido1.to_html(classes=classes))
         
         else:
             flash('Please provide at least one field to query our database')
