@@ -14,17 +14,17 @@ dn = pd.read_json('dn.json')
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='DOMINICANA ', value="República Dominicana")
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='HOLANDA', value="Holanda") 
 
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    form = AuthenticateForm()
-    if form.validate_on_submit:
-        key = form.key.data
-        if key == "jochi2024":
-            return redirect(url_for('dashboard'))
-    else:
-        flash('Wrong key input')
-    return render_template('login.html', form=form)
+#def login():
+#    form = AuthenticateForm()
+#    if form.validate_on_submit:
+#        key = form.key.data
+#        if key == "jochi2024":
+#            return redirect(url_for('dashboard'))
+#    else:
+#        flash('Wrong key input')
+#    return render_template('login.html', form=form)
 
+@app.route('/')
 @app.route('/dashboard')
 def dashboard():
     ## Grafico Presos Por Mes
