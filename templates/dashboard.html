@@ -1,16 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid">
-   
-  <h2>{{ legend1 }}</h2>
-  <canvas id="{{ legend1 }}" width="" height="100"></canvas>
-
-  <h2>{{ legend2 }}</h2>
-  <canvas id="{{ legend2 }}" width="" height="100"></canvas>
-
-  <h2>{{ legend3 }}</h2>
-  <canvas id="{{ legend3 }}" width="" height=""></canvas>
+<div id="dashboardCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-bs-interval="10000">
+      <h2 style="text-align: center;">{{ legend1 }}</h2>
+      <canvas id="{{ legend1 }}" width="" height=""></canvas>
+    </div>
+    <div class="carousel-item" data-bs-interval="10000">
+      <h2 style="text-align: center;">{{ legend2 }}</h2>
+      <canvas id="{{ legend2 }}" width="" height=""></canvas>
+    </div>
+    <div class="carousel-item" data-bs-interval="10000">
+      <h2 style="text-align: center;">{{ legend3 }}</h2>
+      <canvas id="{{ legend3 }}" width="" height=""></canvas>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#dashboardCarousel" role="button" data-bs-slide="prev">
+  </a>
+  <a class="carousel-control-next" href="#dashboardCarousel" role="button" data-bs-slide="next">
+  </a>
+    <ol class="carousel-indicators" style="bottom: -50px;">
+    <li data-bs-target="#dashboardCarousel" data-bs-slide-to="0" class="active"></li>
+    <li data-bs-target="#dashboardCarousel" data-bs-slide-to="1"></li>
+    <li data-bs-target="#dashboardCarousel" data-bs-slide-to="2"></li>
+  </ol> 
 </div>
   <script>
 Chart.defaults.global.responsive = true;

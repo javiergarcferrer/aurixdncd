@@ -24,6 +24,31 @@
       </ul>
     </div>
   </nav>
-  <h1 class="h1" style="text-align:center; color: #BF0000">Aurix Analytics: Direccion Nacional de Control de Drogas</h1>
+  <h3 class="h3" style="text-align:center; border-style: solid; color: #BF0000">Aurix Analytics: Direccion Nacional de Control de Drogas</h3>
   {% block content %}{% endblock %}
+{% endblock %}
+
+{% block footer %}
+<footer class="fixed-bottom">
+    <p>Aurix: Intelligence & Analytics</p>
+    <p>&copy 2021</p>
+</footer>
+
+<style>
+footer {
+    border-style: solid;
+    padding-top: 1%;
+    width: 100%;
+    display: inline-block;
+    height: 50px;
+    background-color: #999;
+  }
+p {
+    color: #BF0000;
+    text-align: center;
+    line-height: 75%;
+    font-size: smaller;
+    vertical-align: middle;
+  }
+</style>
 {% endblock %}
