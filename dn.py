@@ -61,8 +61,6 @@ def dashboard():
     )
 
 
-
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = QueryForm()
