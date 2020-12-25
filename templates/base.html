@@ -11,12 +11,14 @@
   <script src=https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js>
     </script>
   <style>
-    body {
+    html, body {
+      height: 100%;
       background-color: rgba(164,164,164, 0.3);
     }
   </style>
 {% endblock %} 
 </head>
+<div class="container-fluid" style="height: 100vh">
 <body>
 {% block body %}
 <style>.bg-black{background-color: black ;}</style>
@@ -54,3 +56,4 @@ p {
 </style>
 </html>
 {% endblock %}
+ </div>
