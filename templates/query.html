@@ -27,5 +27,13 @@
     {{ condition|safe }}
           </div>
 {% endif %}
+<style>
+tbody, thead{
+  max-height:500px;
+  overflow:scroll;
+  display:block;
+}
+</style>
+
 {% endblock %}
 </div>

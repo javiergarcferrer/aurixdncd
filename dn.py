@@ -8,21 +8,32 @@ app.config['SECRET_KEY'] = 'aurixbook'
 Bootstrap(app)
 
 import pandas as pd
+import numpy as np
+
 dn = pd.read_json('dn.json')
 
 #Limpieza base de datos DNCD
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='DOMINICANA ', value="República Dominicana")
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='HOLANDA', value="Holanda") 
 
-#def login():
-#    form = AuthenticateForm()
-#    if form.validate_on_submit:
-#        key = form.key.data
-#        if key == "jochi2024":
-#            return redirect(url_for('dashboard'))
-#    else:
-#        flash('Wrong key input')
-#    return render_template('login.html', form=form)
+rowsTitle = ['divisione','inspectoria','seccion','apodo', 'nombre1', 'nombre2', 'apellido1', 'apellido2','sexo']
+rowsCap = ['comentarios']
+dn.fillna("",inplace=True)
+
+for row in rowsTitle:
+    dn[row] = dn[row].apply(lambda x : x.strip().title())
+
+for row in rowsCap:
+    dn[row] = dn[row].apply(lambda x : x.strip().capitalize())
+
+rowsMerge = ['nombre1', 'nombre2', 'apellido1', 'apellido2']
+
+dn['nombre'] = dn[rowsMerge[0]] + " " + dn[rowsMerge[1]] + " " \
+                + dn[rowsMerge[2]] + " " + dn[rowsMerge[3]]
+
+dn['nombre1'] = dn['nombre']
+dn = dn.drop(columns=['nombre','nombre2', 'apellido1', 'apellido2'])
+dn = dn.rename(columns={'nombre1': 'nombre'})
 
 @app.route('/')
 @app.route('/dashboard')
@@ -66,40 +77,19 @@ def search():
     form = QueryForm()
     if form.validate_on_submit():
         noid = form.noid.data
+        nombres = form.nombre.data.split()
 
-        nombre1 = form.nombre1.data
-        apellido1 = form.apellido1.data
-        nombre2 = form.nombre2.data
-        apellido2 = form.apellido2.data
-        
         rnoid = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]
-
-        rnombre1 = dn[dn['nombre1'].str.contains(nombre1, na=False, case=False)]
-        rapellido1 = dn[dn['apellido1'].str.contains(apellido1, na=False, case=False)]
-        rnombre2 = dn[dn['nombre2'].str.contains(nombre2, na=False, case=False)]
-        rapellido2 = dn[dn['apellido2'].str.contains(apellido2, na=False, case=False)]
-        
-        n1a1 = rnombre1[rnombre1['apellido1'].str.contains(apellido1, na=False, case=False)]
-        n1n2a1 = n1a1[n1a1['nombre2'].str.contains(nombre2, na=False, case=False)]
-        combined = n1n2a1[n1n2a1['apellido2'].str.contains(apellido2, na=False, case=False)]
+        rnombre = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombres])]
 
         classes = ["table", "table-dark", "table-hover", "table-striped"]
 
         if noid:
             return render_template('query.html', form=form, condition=rnoid.to_html(classes=classes))
 
-        elif nombre1 and apellido1 and nombre2 and apellido2:
-            return render_template('query.html', form=form, condition=combined.to_html(classes=classes))
+        elif nombres:
+            return render_template('query.html', form=form, condition=rnombre.to_html(classes=classes))
 
-        elif nombre1 and apellido1 and not nombre2 and not apellido2:
-            return render_template('query.html', form=form, condition=n1a1.to_html(classes=classes))
-
-        elif nombre1:
-            return render_template('query.html', form=form, condition=rnombre1.to_html(classes=classes)) 
-
-        elif apellido1:
-            return render_template('query.html', form=form, condition=rapellido1.to_html(classes=classes))
-        
         else:
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
