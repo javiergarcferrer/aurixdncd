@@ -1,11 +1,9 @@
 from flask import Flask
 from flask import render_template, redirect, url_for, flash
-from flask_bootstrap import Bootstrap
 from forms import QueryForm, AuthenticateForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aurixbook'
-Bootstrap(app)
 
 import pandas as pd
 import numpy as np
