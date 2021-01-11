@@ -53,7 +53,7 @@ def dashboard():
     legend2 = "Averaje de Detenidos Cada Mes"
 
     ##Grafico Cantidad Por Nacionalidad (Extranjeros)
-    filtroRD = dn[dn['nacionalidad']!='República Dominicana']
+    filtroRD = dn[(dn['nacionalidad']!='República Dominicana') & (dn['nacionalidad']!='')]
     extranjeros = filtroRD.groupby('nacionalidad')['detenidoId']
     labels3 = extranjeros.count().reset_index(name='count')\
                             .sort_values(['count'], ascending=False)['nacionalidad']\

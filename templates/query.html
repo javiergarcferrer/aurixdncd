@@ -16,23 +16,28 @@
 
 <div class="container-fluid">
 <h1>Search</h1>
-<div class="row">
     <div class="col-md-4">
-        {{ wtf.quick_form(form) }}
+        <form action="" method="post" class="form" role="form">
+            {{ form.csrf_token() }}
+        <div class="row">
+            <div class="form-group col-md-6">
+              {{ wtf.form_field(form.nombre, class='form-control', 
+                 placeholder='Nombre') }}
+            </div>
+            <div class="form-group col-md-6">
+              {{ wtf.form_field(form.noid, class='form-control', 
+                 placeholder='Cedula o Pasaporte') }}
+            </div>
+        </div>
+        
+        <br>
+            <center><button type="submit" class="btn btn-primary">Submit</button></center>
+        </form>
     </div>
-</div>
+    <br>
 {% if condition %}
-     <div class="table-responsive">
+     <div class="table-responsive" style="overflow-y: scroll; height: 70vh;">
     {{ condition|safe }}
           </div>
 {% endif %}
-<style>
-tbody, thead{
-  max-height:500px;
-  overflow:scroll;
-  display:block;
-}
-</style>
-
 {% endblock %}
-</div>
