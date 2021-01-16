@@ -32,13 +32,14 @@
         </div>
         
         <br>
-            <center><button type="submit" class="btn btn-primary">Submit</button></center>
+            <center><button type="submit" class="btn btn-danger">Submit</button></center>
         </form>
     </div>
     <br>
 {% if condition %}
      <div class="table-responsive" style="overflow-y: scroll; height: 70vh;">
     {{ condition|safe }}
-          </div>
+    </div>
 {% endif %}
+</div>
 {% endblock %}

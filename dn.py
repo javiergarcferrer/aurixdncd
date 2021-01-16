@@ -76,21 +76,26 @@ def dashboard():
 def search():
     form = QueryForm()
     if form.validate_on_submit():
-        noid = form.noid.data
-        nombres = form.nombre.data.split()
-
-        rnoid = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]
-        rnombre = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombres])]
+        noid = form.noid.data.strip()
+        nombre = form.nombre.data.strip()
 
         classes = ["table", "table-dark", "table-hover", "table-striped"]
 
+        if noid and nombre:
+            flash('We support queries accross single features only. In this case ID String takes precedent')
+
         if noid:
+            form.nombre.data = None
+            rnoid = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]            
             return render_template('query.html', form=form, condition=rnoid.to_html(classes=classes))
 
-        elif nombres:
+        if nombre:
+            form.noid.data = None
+            rnombre = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]
             return render_template('query.html', form=form, condition=rnombre.to_html(classes=classes))
 
         else:
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
+            
     return render_template('query.html', form=form)
