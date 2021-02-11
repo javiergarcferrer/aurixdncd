@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template, redirect, url_for, flash
-from forms import QueryForm, AuthenticateForm
+from forms import QueryForm, FlightForm
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
@@ -99,3 +99,13 @@ def search():
             return render_template('query.html', form=form)
             
     return render_template('query.html', form=form)
+
+@app.route('/flight', methods=['GET', 'POST'])
+def flight():
+    form = FlightForm()
+    if form.validate_on_submit():
+        id = form.data.id
+        ##code to filter database by aircraft code
+        rid = ''
+        return render_template('flight.html', form=form, rid='')
+    return render_template('flight.html', form=form, rid='')

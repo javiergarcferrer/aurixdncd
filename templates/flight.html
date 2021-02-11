@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+<section class="container-fluid">
+    <h3><strong>Aircraft Search</strong></h3>
+    <div class="col-md-12">
+        <form action="" method="post" class="form" role="form">
+            {{ form.csrf_token() }}
+        <div class="row">
+            <div class="form-group col-md-10">
+                {{ wtf.form_field(form.id, class='form-control', 
+                   placeholder='Aircraft ID') }}        
+            </div>
+            <div class="form-group col-md-2">            
+                <button type="submit" class="btn btn-danger mt-4">Submit</button>
+            </div>
+        </div>    
+        </form>
+    </div>    
+    </section>
+    <br>
+{% if condition %}
+     <section class="table-responsive" style="overflow-y: scroll; height: 70vh;">
+    {{ condition|safe }}
+    </section>
+{% endif %}
+</div>
+{% endblock %}

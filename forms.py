@@ -7,5 +7,6 @@ class QueryForm(FlaskForm):
     noid = StringField('Numero de Identificacion')
     submit = SubmitField('Submit')
 
-class AuthenticateForm(FlaskForm):
-    key = StringField('Secret Key')
+class FlightForm(FlaskForm):
+    id = StringField('ID')
+    submit = SubmitField('Submit')

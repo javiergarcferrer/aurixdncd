@@ -1,0 +1,15 @@
+footer {
+    border-style: solid;
+    height: 50px;
+    background-color: #999;
+  }
+.footer-text {
+    color: #BF0000;
+    font-size: smaller;
+  }
+body {
+    background-color: rgba(164,164,164, 0.3);
+    height: 100%
+}
+
+.bg-black{background-color: black ;}
