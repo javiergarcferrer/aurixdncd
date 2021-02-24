@@ -2,6 +2,8 @@ from flask import Flask
 from flask import render_template, redirect, url_for, flash
 from forms import QueryForm, FlightForm
 from flask_bootstrap import Bootstrap
+from sqlalchemy import create_engine
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aurixbook'
@@ -71,6 +73,7 @@ def dashboard():
     legend3=legend3, values3=values3, labels3=labels3,
     )
 
+classes = ["table", "table-dark", "table-hover", "table-striped"]
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -79,7 +82,6 @@ def search():
         noid = form.noid.data.strip()
         nombre = form.nombre.data.strip()
 
-        classes = ["table", "table-dark", "table-hover", "table-striped"]
 
         if noid and nombre:
             flash('We support queries accross single features only. In this case ID String takes precedent')
@@ -104,8 +106,8 @@ def search():
 def flight():
     form = FlightForm()
     if form.validate_on_submit():
-        id = form.data.id
-        ##code to filter database by aircraft code
-        rid = ''
-        return render_template('flight.html', form=form, rid='')
-    return render_template('flight.html', form=form, rid='')
+        id = form.id.data
+        engine = create_engine('postgresql+psycopg2://aurix:aurix@200.88.13.182:5432/flight_data')
+        rid = pd.read_sql("SELECT * FROM flight_data WHERE flight_data.hex='{}'".format(id), engine).to_html(classes=classes)
+        return render_template('flight.html', form=form, rid=rid)
+    return render_template('flight.html', form=form)
