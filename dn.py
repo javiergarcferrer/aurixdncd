@@ -17,6 +17,7 @@ dn = pd.read_json('dn.json')
 #Limpieza base de datos DNCD
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='DOMINICANA ', value="República Dominicana")
 dn['nacionalidad'] = dn['nacionalidad'].replace(to_replace='HOLANDA', value="Holanda") 
+dn['fechaArresto'] = [x.split('T')[0] for x in dn['fechaArresto']]
 
 rowsTitle = ['divisione','inspectoria','seccion','apodo', 'nombre1', 'nombre2', 'apellido1', 'apellido2','sexo']
 rowsCap = ['comentarios']
@@ -81,8 +82,9 @@ def search():
     if form.validate_on_submit():
         noid = form.noid.data.strip()
         nombre = form.nombre.data.strip()
-
-
+        #fecha1 = form.fecha1.data
+        #fecha2 = form.fecha2.data
+            
         if noid and nombre:
             flash('We support queries accross single features only. In this case ID String takes precedent')
 
