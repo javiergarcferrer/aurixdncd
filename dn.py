@@ -4,7 +4,6 @@ from forms import QueryForm, FlightForm
 from flask_bootstrap import Bootstrap
 from sqlalchemy import create_engine
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aurixbook'
 Bootstrap(app)
@@ -82,26 +81,30 @@ def search():
     if form.validate_on_submit():
         noid = form.noid.data.strip()
         nombre = form.nombre.data.strip()
-        #fecha1 = form.fecha1.data
-        #fecha2 = form.fecha2.data
-            
+        fecha1 = form.fecha1.data
+        fecha2 = form.fecha2.data
+
         if noid and nombre:
             flash('We support queries accross single features only. In this case ID String takes precedent')
 
         if noid:
             form.nombre.data = None
-            rnoid = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]            
-            return render_template('query.html', form=form, condition=rnoid.to_html(classes=classes))
+            query = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]            
 
-        if nombre:
+        elif nombre:
             form.noid.data = None
-            rnombre = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]
-            return render_template('query.html', form=form, condition=rnombre.to_html(classes=classes))
-
+            query = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]
+            
         else:
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
-            
+        
+        if fecha1 and fecha2:
+            fechas = pd.to_datetime(query['fechaArresto'], format='%Y-%m-%d')
+            query = query[(fechas > pd.to_datetime(fecha1, format='%Y-%m-%d')) & (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))]            
+        
+        return render_template('query.html', form=form, condition=query.to_html(classes=classes))
+
     return render_template('query.html', form=form)
 
 @app.route('/flight', methods=['GET', 'POST'])
