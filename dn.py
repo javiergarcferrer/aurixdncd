@@ -110,6 +110,6 @@ def flight():
     if form.validate_on_submit():
         id = form.id.data
         engine = create_engine('postgresql+psycopg2://aurix:aurix@200.88.13.182:5432/flight_data')
-        rid = pd.read_sql("SELECT * FROM flight_data WHERE flight_data.hex='{}'".format(id), engine).to_html(classes=classes)
+        rid = pd.read_sql("SELECT * FROM flight_data WHERE UPPER(flight_data.hex) LIKE UPPER('{}')".format(id), engine).to_html(classes=classes)
         return render_template('flight.html', form=form, rid=rid)
     return render_template('flight.html', form=form)
