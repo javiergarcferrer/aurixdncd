@@ -7,8 +7,7 @@ footer {
     color: #BF0000;
     font-size: smaller;
   }
-body {
-    background-color: rgba(164,164,164, 0.3);
+html body main {
     height: 100%
 }
 

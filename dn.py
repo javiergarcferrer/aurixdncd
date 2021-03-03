@@ -94,14 +94,19 @@ def search():
         elif nombre:
             form.noid.data = None
             query = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]
-            
+    
+        try: query
+        except: query = dn
+        
+        if fecha1 or fecha2:
+            fechas = pd.to_datetime(query['fechaArresto'], format='%Y-%m-%d')
+            query = query[(fechas > pd.to_datetime(fecha1, format='%Y-%m-%d')) & (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))]     
+        
         else:
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
-        
-        if fecha1 and fecha2:
-            fechas = pd.to_datetime(query['fechaArresto'], format='%Y-%m-%d')
-            query = query[(fechas > pd.to_datetime(fecha1, format='%Y-%m-%d')) & (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))]            
+
+       
         
         return render_template('query.html', form=form, condition=query.to_html(classes=classes))
 

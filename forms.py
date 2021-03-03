@@ -11,5 +11,5 @@ class QueryForm(FlaskForm):
     fecha2 = DateField('Hasta', validators=[validators.Optional()])
 
 class FlightForm(FlaskForm):
-    id = SearchField('ICAO')
+    id = SearchField('Aircraft ID')
     submit = SubmitField('Submit')
