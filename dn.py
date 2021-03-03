@@ -83,30 +83,31 @@ def search():
         nombre = form.nombre.data.strip()
         fecha1 = form.fecha1.data
         fecha2 = form.fecha2.data
+        query = dn
 
         if noid and nombre:
             flash('We support queries accross single features only. In this case ID String takes precedent')
 
+        if fecha1 or fecha2:
+            fechas = pd.to_datetime(query['fechaArresto'], format='%Y-%m-%d')
+            try: range_boole1 = (fechas > pd.to_datetime(fecha1, format='%Y-%m-%d')) 
+            except: range_boole1 = True
+            try: range_boole2 = (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))
+            except: range_boole2 = True
+            query = query[range_boole1]
+
         if noid:
             form.nombre.data = None
-            query = dn[dn['numeroIdentificacion'].str.contains(noid, na=False, case=False)]            
+            query = query[query['numeroIdentificacion'].str.contains(noid, na=False, case=False)]            
+
 
         elif nombre:
             form.noid.data = None
-            query = dn[np.logical_and.reduce([dn['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]
-    
-        try: query
-        except: query = dn
-        
-        if fecha1 or fecha2:
-            fechas = pd.to_datetime(query['fechaArresto'], format='%Y-%m-%d')
-            query = query[(fechas > pd.to_datetime(fecha1, format='%Y-%m-%d')) & (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))]     
-        
+            query = query[np.logical_and.reduce([query['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]        
+
         else:
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
-
-       
         
         return render_template('query.html', form=form, condition=query.to_html(classes=classes))
 
