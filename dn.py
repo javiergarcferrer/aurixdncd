@@ -94,7 +94,7 @@ def search():
             except: range_boole1 = True
             try: range_boole2 = (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))
             except: range_boole2 = True
-            query = query[range_boole1]
+            query = query[range_boole1 and range_boole2]
 
         if noid:
             form.nombre.data = None
@@ -109,7 +109,7 @@ def search():
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
         
-        return render_template('query.html', form=form, condition=query.to_html(classes=classes))
+        return render_template('query.html', form=form, condition=query.to_html())
 
     return render_template('query.html', form=form)
 
@@ -120,6 +120,6 @@ def flight():
         id = form.id.data
         try: engine = create_engine('postgresql+psycopg2://aurix:aurix@200.88.13.182:5432/flight_data')
         except: return render_template('DBerror.html')
-        rid = pd.read_sql("SELECT * FROM flight_data WHERE UPPER(flight_data.hex) LIKE UPPER('{}')".format(id), engine).to_html(classes=classes)
+        rid = pd.read_sql("SELECT * FROM flight_data WHERE UPPER(flight_data.hex) LIKE UPPER('{}')".format(id), engine).to_html()
         return render_template('flight.html', form=form, rid=rid)
     return render_template('flight.html', form=form)
