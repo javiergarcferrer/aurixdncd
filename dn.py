@@ -105,7 +105,7 @@ def search():
             form.noid.data = None
             query = query[np.logical_and.reduce([query['nombre'].str.contains(word, na=False, case=False) for word in nombre.split()])]        
 
-        elif not (fecha1 or fecha2 or noid or nombre):
+        elif not ((fecha1 and fecha2) or noid or nombre):
             flash('Please provide at least one field to query our database')
             return render_template('query.html', form=form)
         
