@@ -94,7 +94,7 @@ def search():
             except: range_boole1 = True
             try: range_boole2 = (fechas < pd.to_datetime(fecha2, format='%Y-%m-%d'))
             except: range_boole2 = True
-            query = query[range_boole1 and range_boole2]
+            query = query[range_boole1 & range_boole2]
 
         if noid:
             form.nombre.data = None
